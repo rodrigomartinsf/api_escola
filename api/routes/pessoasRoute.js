@@ -3,12 +3,18 @@ const PessoaController = require('../controllers/PessoaController')
 
 const router = Router()
 
-router.get('/pessoas', PessoaController.getPessoas)
+
+router.get('/pessoas', PessoaController.getPessoasAtivas)
+router.get('/pessoas/all', PessoaController.getTodasPessoas)
 router.get('/pessoas/:estudanteId/matriculas', PessoaController.getMatriculasByPessoa)
 router.get('/pessoas/:estudanteId/matriculas/:matriculaId', PessoaController.getMatriculaById)
+router.get('/pessoas/:estudanteId/matricula/', PessoaController.getMatriculas)
 router.get('/pessoas/:id', PessoaController.getPessoaById)
+router.get('/pessoas/matricula/:turmaId/confirmadas', PessoaController.getMatriculasByTurma)
+router.get('/pessoas/matricula/lotada', PessoaController.getTurmasLotadas)
 
 router.post('/pessoas', PessoaController.cadastraPessoa)
+router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa)
 router.post('/pessoas/:estudanteId/matriculas', PessoaController.cadastraMatricula)
 
 router.delete('/pessoas/:estudanteId/matriculas/:matriculaId', PessoaController.deletaMatricula)
