@@ -9,8 +9,8 @@ class TurmaController {
     const { dataInicial, dataFinal } = req.query
     const where = {}
     dataInicial || dataFinal ? where.data_inicio = {} : null
-    dataInicial ? where.data_inicio[Op.gte] = dataInicial : null
-    dataFinal ? where.data_inicio[Op.lte] = dataFinal  : null
+    dataInicial ? where.data_inicio[op.gte] = dataInicial : null
+    dataFinal ? where.data_inicio[op.lte] = dataFinal  : null
     //console.log(where)
     try {
       const turmas = await database.Turmas.findAll({ where })

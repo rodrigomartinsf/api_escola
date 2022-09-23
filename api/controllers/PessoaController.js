@@ -1,19 +1,22 @@
-const database = require('../models')
-const Sequelize = require('sequelize')
+//const database = require('../models')
+//const Sequelize = require('sequelize')
+const { PessoasServices } = require('../services')
+const pessoasServices = new PessoasServices()
 
 class PessoaController {
-  static async getTodasPessoas(req, res) {
+
+  static async pegaTodasPessoas(req, res) {
     try {
-      const todasAsPessoas = await database.Pessoas.scope('todos').findAll()
+      const todasAsPessoas = await pessoasServices.pegaTodosOsRegistros()
       return res.status(200).json(todasAsPessoas)
     } catch (error) {
         return res.status(500).json(error.message)
     }
   }
 
-  static async getPessoasAtivas(req, res) {
+  static async pegaPessoasAtivas(req, res) {
     try {
-      const pessoasAtivas = await database.Pessoas.findAll()
+      const pessoasAtivas = await pessoasServices.pegaRegistrosAtivos()
       return res.status(200).json(pessoasAtivas)
     } catch (error) {
         return res.status(500).json(error.message)
@@ -205,6 +208,16 @@ class PessoaController {
         having: Sequelize.literal(`count(turma_id) >= ${lotacaoTurma}`)
       })
       res.status(200).json(turmas.count)
+    } catch (error) {
+        res.status(404).json(error.message)
+    }
+  }
+
+  static cancelaPessoa = async (req, res) => {
+    const { estudanteId } = req.params
+    try {
+      await pessoasServices.cancelaPessoaEMatriculas(Number(estudanteId))
+      res.status(200).json({message: `matrículas ref. estudante ${estudanteId} canceladas.`})
     } catch (error) {
         res.status(404).json(error.message)
     }
