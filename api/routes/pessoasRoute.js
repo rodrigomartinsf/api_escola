@@ -1,13 +1,13 @@
 const { Router } = require('express')
 const PessoaController = require('../controllers/PessoaController')
-
+const Authentication = require('../middlewares/auth')
 const router = Router()
 
 
-router.get('/pessoas', PessoaController.pegaTodasPessoas)
-router.get('/pessoas/ativas', PessoaController.pegaPessoasAtivas)
-router.get('/pessoas/:estudanteId/matriculas', PessoaController.getMatriculasByPessoa)
-router.get('/pessoas/:estudanteId/matriculas/:matriculaId', PessoaController.getMatriculaById)
+router.get('/pessoas',Authentication.check, PessoaController.pegaTodasPessoas)
+router.get('/pessoas/ativas',Authentication.check ,PessoaController.pegaPessoasAtivas)
+router.get('/pessoas/:estudanteId/matriculas',Authentication.check, PessoaController.getMatriculasByPessoa)
+router.get('/pessoas/:estudanteId/matriculas/:matriculaId',Authentication.check, PessoaController.getMatriculaById)
 router.get('/pessoas/:estudanteId/matricula/', PessoaController.getMatriculas)
 router.get('/pessoas/:id', PessoaController.getPessoaById)
 router.get('/pessoas/matricula/:turmaId/confirmadas', PessoaController.getMatriculasByTurma)
